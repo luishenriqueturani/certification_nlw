@@ -2,9 +2,11 @@ package br.com.luishenriqueturani.certification_nlw.modules.students.controllers
 
 import br.com.luishenriqueturani.certification_nlw.modules.students.dto.StudentCertificationAnswer;
 import br.com.luishenriqueturani.certification_nlw.modules.students.dto.VerifyHasCertificationDTO;
+import br.com.luishenriqueturani.certification_nlw.modules.students.entities.CertificationStudent;
 import br.com.luishenriqueturani.certification_nlw.modules.students.useCases.StudentCertificationsAnswersService;
 import br.com.luishenriqueturani.certification_nlw.modules.students.useCases.VerifyHasCertificationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,8 +31,12 @@ public class Student {
   }
 
 
-  public StudentCertificationAnswer certificationAnswer(@RequestBody StudentCertificationAnswer dto ) throws Exception {
-    return this.scas.execute( dto );
+  public ResponseEntity<Object> certificationAnswer(@RequestBody StudentCertificationAnswer dto ) throws Exception {
+    try {
+      return ResponseEntity.ok().body(this.scas.execute( dto ));
+    }catch (Exception e){
+      return ResponseEntity.badRequest().body(e.getMessage());
+    }
   }
 
 }
